@@ -1,6 +1,8 @@
 // Variables del proyecto
 
 const carrito = document.querySelector('#carrito');
+
+
 const contenedorCarrito = document.querySelector('#lista-carrito tbody');
 const vaciarCarritoBtn = document.querySelector('#vaciar-carrito');
 const listaProductos = document.querySelector('#lista-productos');
@@ -15,8 +17,9 @@ function ejecutarEventListeners() {
     //Evento que elimina producto del carrito
     carrito.addEventListener('click', eliminarProducto);
 
+    //Vaciamos el carrito de compras
     vaciarCarritoBtn.addEventListener('click', () => {
-       
+
         articulosCarrito = [];
 
         limpiarCarrito();
@@ -37,14 +40,14 @@ function agregarProducto(e) {
 
 //Funcion que elimina un curso del carrito
 function eliminarProducto(e) {
-   if(e.target.classList.contains('borrar-curso')){
-    const productoId = e.target.getAttribute('data-id');
+    if (e.target.classList.contains('borrar-producto')) {
+        const productoId = e.target.getAttribute('data-id');
 
-    //Eliminamos productos del arreglo articulosCarrito por medio del data-id
-    articulosCarrito = articulosCarrito.filter( producto => producto.id !== productoId);
+        //Eliminamos productos del arreglo articulosCarrito por medio del data-id
+        articulosCarrito = articulosCarrito.filter(producto => producto.id !== productoId);
 
-    mostrarCarrito(); //Iteramos sobre carrito y mostramos su HTML
-   };
+        mostrarCarrito(); //Iteramos sobre carrito y mostramos su HTML
+    };
 }
 //Funcion para leer el contenido del HTML y extraer 
 //la informacion del producto
@@ -63,16 +66,15 @@ function leerDatosProductos(producto) {
     //Revisamos si un elemento ya existe en el carrito
     //para no agregarlo dos veces
     const existe = articulosCarrito.some(producto => producto.id === infoProducto.id);
-    console.log(existe);
 
     if (existe) {
         //Actualizamos la cantidad
 
-        const productos = articulosCarrito.map( producto => {
-            if(producto.id === infoProducto.id){
+        const productos = articulosCarrito.map(producto => {
+            if (producto.id === infoProducto.id) {
                 producto.cantidad++;
                 return producto; //Retornamos el objeto actualizado
-            }else{
+            } else {
                 return producto; //Retoronamos los objetos que no son actualizados
             }
         });
@@ -81,8 +83,6 @@ function leerDatosProductos(producto) {
         //Agregamos productos al arreglo de carrito
         articulosCarrito = [...articulosCarrito, infoProducto];
     }
-
-    console.log(articulosCarrito);
 
     mostrarCarrito();
 }
@@ -107,7 +107,7 @@ function mostrarCarrito() {
         <td>${precio}</td>
         <td>${cantidad}</td>
         <td>
-            <a href="#" class="borrar-curso" data-id="${id}"> X </a>
+            <a href="#" class="borrar-producto" data-id="${id}"> X </a>
         </td>
         `;
 
@@ -117,7 +117,7 @@ function mostrarCarrito() {
     });
 }
 
-//Eliminamos los productos del tbody para que no se
+//Eliminamos los productos del elemento tbody para que no se
 //repitan en cada iteracion
 function limpiarCarrito() {
 
